@@ -1,51 +1,40 @@
 package ru.ac.uniyar.eshmakov;
 
+import ru.ac.uniyar.eshmakov.entit.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String[] example = sc.nextLine().split(" ");
-        List<Integer> parsExample = parser(example);
-        if (parsExample.isEmpty()) {
-            System.out.println("Переданно не целое число");
+        Task task = new Task();
+        if (args.length == 0) {
+            Scanner sc = new Scanner(System.in);
+            String[] example = sc.nextLine().split(" ");
+            sc.close();
+            task = Task.parser(example);
+        } else {
+            task = Task.parser(args);
         }
-        try {
-            solution(parsExample, example[1]);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        solution(task);
     }
 
-    private static List<Integer> parser(String[] example) {
-        List<Integer> result = new ArrayList<>();
-        try {
-            result.add(Integer.parseInt(example[0]));
-            result.add(Integer.parseInt(example[2]));
-            return result;
-        } catch (NumberFormatException e) {
-            return new ArrayList<>();
-        }
-    }
-
-    private static void solution(List<Integer> parsExample, String operand) throws Exception {
-        switch (operand) {
+    private static void solution(Task task) {
+        Fraction num1 = task.getNum1();
+        Fraction num2 = task.getNum2();
+        switch (task.getOperand()) {
             case "+":
-                System.out.println(parsExample.get(0) + parsExample.get(1));
+                System.out.println(num1.add(num2));
                 break;
             case "-":
-                System.out.println(parsExample.get(0) - parsExample.get(1));
+                System.out.println(num1.subtract(num2));
                 break;
             case "*":
-                System.out.println(parsExample.get(0) * parsExample.get(1));
+                System.out.println(num1.multiply(num2));
                 break;
             case "/":
-                if (parsExample.get(1) == 0) {
-                    throw new Exception("Делить на ноль нельзя");
-                }
-                System.out.println(parsExample.get(0) / parsExample.get(1));
+                System.out.println(num1.divide(num2));
                 break;
             default:
                 System.out.println("Неизвестная операция");

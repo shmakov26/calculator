@@ -1,6 +1,5 @@
 package ru.ac.uniyar.eshmakov;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class Fraction {
@@ -13,6 +12,15 @@ public class Fraction {
     private Fraction(int numerator) {
         this.numerator = numerator;
         this.denominator = 1;
+    }
+    
+    private Fraction(int numerator, int denominator) {
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Знаменатель должен быть не ноль");
+        }
+        this.numerator = numerator;
+        this.denominator = denominator;
+        simplify();
     }
 
     private Fraction(Double decimal) {
@@ -104,6 +112,53 @@ public class Fraction {
                 return a;
             }
         }
+    }
+
+    /**
+     * Сложение дробей
+     * @param other второе слагаемое
+     * @return результат вычислений
+     */
+    public Fraction add(Fraction other) {
+        int numerator = (this.numerator * other.denominator) + (other.numerator * this.denominator);
+        int denominator = this.denominator * other.denominator;
+        return new Fraction(numerator, denominator);
+    }
+
+    /**
+     * Вычитание дробей
+     * @param other вычитаемое
+     * @return результат вычислений
+     */
+    public Fraction subtract(Fraction other) {
+        int numerator = (this.numerator * other.denominator) - (other.numerator * this.denominator);
+        int denominator = this.denominator * other.denominator;
+        return new Fraction(numerator, denominator);
+    }
+
+    /**
+     * Умножение дробей
+     * @param other второй множитель
+     * @return результат вычислений
+     */
+    public Fraction multiply(Fraction other) {
+        int numerator = this.numerator * other.numerator;
+        int denominator = this.denominator * other.denominator;
+        return new Fraction(numerator, denominator);
+    }
+
+    /**
+     * Деление дробей
+     * @param other делитель
+     * @return результат вычислений
+     */
+    public Fraction divide(Fraction other) {
+        if (other.numerator == 0) {
+            throw new ArithmeticException("Деление на ноль");
+        }
+        int numerator = this.numerator * other.denominator;
+        int denominator = this.denominator * other.numerator;
+        return new Fraction(numerator, denominator);
     }
 
     @Override
