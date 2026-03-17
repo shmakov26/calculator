@@ -1,7 +1,5 @@
 package ru.ac.uniyar.eshmakov;
 
-import java.math.BigInteger;
-
 public class Fraction {
     private int numerator;
     private int denominator;
@@ -24,7 +22,6 @@ public class Fraction {
     }
 
     private Fraction(Double decimal) {
-        // Преобразуем double в дробь
         String decimalString = decimal.toString();
 
         String[] parts = decimalString.split("\\.");
@@ -63,6 +60,11 @@ public class Fraction {
         simplify();
     }
 
+    /**
+     * Функция, которая парсит строку в дробь
+     * @param input строка с дробью
+     * @return объект дроби
+     */
     public static Fraction parseFraction(String input) {
         if (input == null || input.trim().isEmpty()) {
             throw new IllegalArgumentException("Пустая строка не может быть преобразована в дробь");
@@ -89,7 +91,6 @@ public class Fraction {
         numerator = numerator / gcd;
         denominator = denominator / gcd;
 
-        // Убираем знак из знаменателя
         if (denominator < 0) {
             numerator = numerator * -1;
             denominator = denominator * -1;

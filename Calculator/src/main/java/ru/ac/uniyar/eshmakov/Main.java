@@ -1,14 +1,15 @@
 package ru.ac.uniyar.eshmakov;
 
 import ru.ac.uniyar.eshmakov.entit.Task;
+import ru.ac.uniyar.eshmakov.factory.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    private static FactoryOperation factoryOperation;
+
     public static void main(String[] args) {
-        Task task = new Task();
+        Task task;
         if (args.length == 0) {
             Scanner sc = new Scanner(System.in);
             String[] example = sc.nextLine().split(" ");
@@ -17,24 +18,23 @@ public class Main {
         } else {
             task = Task.parser(args);
         }
-        solution(task);
+        determineOperation(task.getOperand());
+        System.out.println(factoryOperation.decision(task.getNum1(), task.getNum2()));
     }
 
-    private static void solution(Task task) {
-        Fraction num1 = task.getNum1();
-        Fraction num2 = task.getNum2();
-        switch (task.getOperand()) {
+    private static void determineOperation(String operand) {
+        switch (operand) {
             case "+":
-                System.out.println(num1.add(num2));
+                factoryOperation = new FactoryAddOperation();
                 break;
             case "-":
-                System.out.println(num1.subtract(num2));
+                factoryOperation = new FactorySubtractOperation();
                 break;
             case "*":
-                System.out.println(num1.multiply(num2));
+                factoryOperation = new FactoryMultiplyOperation();
                 break;
             case "/":
-                System.out.println(num1.divide(num2));
+                factoryOperation = new FactoryDivideOperation();
                 break;
             default:
                 System.out.println("Неизвестная операция");
