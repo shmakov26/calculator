@@ -98,21 +98,16 @@ public class Fraction {
     }
 
     private int gcd(int a, int b) {
-        int q;
+        a = Math.abs(a);
+        b = Math.abs(b);
 
-        while (true) {
-            if (a > b) {
-                q = a % b;
-                if (q == 0) return b;
-                else a = q;
-            } else if (a < b) {
-                q = b % a;
-                if (q == 0) return a;
-                else b = q;
-            } else {
-                return a;
-            }
+        while (b != 0) {
+            int q = b;
+            b = a % b;
+            a = q;
         }
+
+        return a;
     }
 
     /**
@@ -121,9 +116,9 @@ public class Fraction {
      * @return результат вычислений
      */
     public Fraction add(Fraction other) {
-        int numerator = (this.numerator * other.denominator) + (other.numerator * this.denominator);
-        int denominator = this.denominator * other.denominator;
-        return new Fraction(numerator, denominator);
+        int newNumerator = (this.numerator * other.denominator) + (other.numerator * this.denominator);
+        int newDenominator = this.denominator * other.denominator;
+        return new Fraction(newNumerator, newDenominator);
     }
 
     /**
@@ -132,9 +127,9 @@ public class Fraction {
      * @return результат вычислений
      */
     public Fraction subtract(Fraction other) {
-        int numerator = (this.numerator * other.denominator) - (other.numerator * this.denominator);
-        int denominator = this.denominator * other.denominator;
-        return new Fraction(numerator, denominator);
+        int newNumerator = (this.numerator * other.denominator) - (other.numerator * this.denominator);
+        int newDenominator = this.denominator * other.denominator;
+        return new Fraction(newNumerator, newDenominator);
     }
 
     /**
@@ -143,9 +138,9 @@ public class Fraction {
      * @return результат вычислений
      */
     public Fraction multiply(Fraction other) {
-        int numerator = this.numerator * other.numerator;
-        int denominator = this.denominator * other.denominator;
-        return new Fraction(numerator, denominator);
+        int newNumerator = this.numerator * other.numerator;
+        int newDenominator = this.denominator * other.denominator;
+        return new Fraction(newNumerator, newDenominator);
     }
 
     /**
@@ -157,9 +152,9 @@ public class Fraction {
         if (other.numerator == 0) {
             throw new ArithmeticException("Деление на ноль");
         }
-        int numerator = this.numerator * other.denominator;
-        int denominator = this.denominator * other.numerator;
-        return new Fraction(numerator, denominator);
+        int newNumerator = this.numerator * other.denominator;
+        int newDenominator = this.denominator * other.numerator;
+        return new Fraction(newNumerator, newDenominator);
     }
 
     @Override
